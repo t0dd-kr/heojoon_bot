@@ -151,6 +151,7 @@ export default {
         for(let i=0;i<response.length;i++) {
           this.chats.push({
             isBot: true,
+            image: response[i].imgRoute,
             content: response[i].message.replace(' (핑퐁[pingpong.us]에서 생성된 자동답변입니다)', ''),
             date: new Date()
           })
@@ -199,6 +200,7 @@ export default {
         for(let i=0;i<response.length;i++) {
           this.chats.push({
             isBot: true,
+            image: response[i].imgRoute,
             content: response[i].message.replace(' (핑퐁[pingpong.us]에서 생성된 자동답변입니다)', ''),
             date: new Date()
           })

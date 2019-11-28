@@ -69,8 +69,11 @@ export default {
   },
   data () {
     return {
-      rewelcome: [''],
-      placeholder: '현재 증상을 말해주세요. (예: 딸꾹질)',
+      rewelcome: [
+      '또 오셨구려, @name 대감. 이번엔 어떤 일로 오셨는가?',
+      '@name 대감, 다시 오셨구려. 저번의 @symptom 은(는) 괜찮아졌는가?',
+      '@name 대감 반갑네. 저번의 @symptom 진료의 외상값은 가져왔는가? 이번엔 무슨 일로 왔는가?'],
+      placeholder: '현재 증상을 말해주세요. (예: 콜록콜록)',
       userChat: '',
       sessionId: '',
       chatflowId: '',
@@ -80,14 +83,13 @@ export default {
       chats: []
     }
   },
-  mounted: function () {
-    if(!window.localStorage.visit || window.localStorage.visit < 2) {
-      this.$http.post('/api/connect')
-      .then(res => {
-        console.log(res.data.data)
-        this.chatflowId = res.data.chatflow_id
-        this.sessionId = res.data.session_id
-        this.insId = res.data.ins_id
+  beforeCreate: function () {
+    this.$http.post('/api/connect')
+    .then(res => {
+      this.chatflowId = res.data.chatflow_id
+      this.sessionId = res.data.session_id
+      this.insId = res.data.ins_id
+      if(!window.localStorage.visit || window.localStorage.visit < 2) {
         let welcomeMsgs = res.data.welcome.slice(1)
         for(let i=0;i<welcomeMsgs.length;i++) {
           this.chats.push({
@@ -97,11 +99,27 @@ export default {
           })
           this.shake()
         }
-      })
-      .catch(err => {
-        console.log(err)
-      })
-    }
+      } else {
+        let message = ''
+        if(localStorage.symptom) {
+          message = this.rewelcome[parseInt(Math.random() * (this.rewelcome.length - 2)) + 1].replace('@name', window.localStorage.nickname).replace('@symptom', window.localStorage.symptom)
+          localStorage.removeItem('symptom')
+        } else {
+          message = this.rewelcome[0].replace('@name', window.localStorage.nickname)
+        }
+
+        this.chats.push({
+          isBot: true,
+          content: message,
+          date: new Date()
+        })
+        this.shake()
+      }
+      console.log(res.data.data)
+    })
+    .catch(err => {
+      console.log(err)
+    })
   },
   methods: {
     focusInput: function () {
@@ -128,13 +146,16 @@ export default {
         this.sessionId = res.data.session_id
         this.insId = res.data.ins_id
         this.paramId = res.data.param_id
+        if(this.paramId == 'symptom') {
+          localStorage.symptom = option.value
+        }
         console.log(res.data.data)
         let response = res.data.response
         for(let i=0;i<response.length;i++) {
           this.chats.push({
             isBot: true,
             image: response[i].imgRoute,
-            content: response[i].message.replace('@name', window.localStorage.nickname).replace(' (핑퐁[pingpong.us]에서 생성된 자동답변입니다)', ''),
+            content: response[i].message.replace('@name', window.localStorage.nickname).replace('(핑퐁[pingpong.us]에서 생성된 자동답변입니다)', ''),
             date: new Date()
           })
           this.shake()
@@ -184,13 +205,16 @@ export default {
         this.sessionId = res.data.session_id
         this.insId = res.data.ins_id
         this.paramId = res.data.param_id
+        if(this.paramId == 'foods') {
+          localStorage.symptom = '딸꾹질'
+        }
         console.log(res.data.data)
         let response = res.data.response
         for(let i=0;i<response.length;i++) {
           this.chats.push({
             isBot: true,
             image: response[i].imgRoute,
-            content: response[i].message.replace('@name', window.localStorage.nickname).replace(' (핑퐁[pingpong.us]에서 생성된 자동답변입니다)', ''),
+            content: response[i].message.replace('@name', window.localStorage.nickname).replace('(핑퐁[pingpong.us]에서 생성된 자동답변입니다)', ''),
             date: new Date()
           })
           this.shake()

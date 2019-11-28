@@ -10,7 +10,7 @@
           이름
         </div>
         <div class="input">
-          <input type="text" name="" v-model="nickname">
+          <input type="text" name="" v-model="nickname" @keydown="($event) => { if ($event.keyCode === 13) { saveNickname() } }">
         </div>
         <div :class="'btn-confirm' + (nickname ? ' btn-confirm-active' : '')" @click="saveNickname">
           입장
@@ -37,8 +37,17 @@ export default {
         return
       }
       window.localStorage.nickname = this.nickname
-      window.localStorage.visit = 1
+      if(!window.localStorage.visit) {
+        window.localStorage.visit = 1
+      } else {
+        window.localStorage.visit = parseInt(window.localStorage.visit) + 1
+      }
       this.$router.push('/main')
+    }
+  },
+  mounted: function () {
+    if(window.localStorage.nickname) {
+      this.nickname = window.localStorage.nickname
     }
   }
 }

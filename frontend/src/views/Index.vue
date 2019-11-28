@@ -74,6 +74,7 @@ export default {
       sessionId: '',
       chatflowId: '',
       insId: '',
+      paramId: '',
       optionList: [],
       chats: [
       // {
@@ -137,9 +138,14 @@ export default {
         msg: option.value,
         session_id: this.sessionId,
         chatflow_id: this.chatflowId,
+        param_id: this.paramId,
         ins_id: this.insId,
       })
       .then(res => {
+        this.chatflowId = res.data.chatflow_id
+        this.sessionId = res.data.session_id
+        this.insId = res.data.ins_id
+        this.paramId = res.data.param_id
         console.log(res.data.data)
         let response = res.data.response
         for(let i=0;i<response.length;i++) {
@@ -180,9 +186,14 @@ export default {
         msg: this.userChat,
         session_id: this.sessionId,
         chatflow_id: this.chatflowId,
+        param_id: this.paramId,
         ins_id: this.insId
       })
       .then(res => {
+        this.chatflowId = res.data.chatflow_id
+        this.sessionId = res.data.session_id
+        this.insId = res.data.ins_id
+        this.paramId = res.data.param_id
         console.log(res.data.data)
         let response = res.data.response
         for(let i=0;i<response.length;i++) {

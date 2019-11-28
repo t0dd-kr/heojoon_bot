@@ -34,6 +34,8 @@ router.post('/connect', (req, res, next) => {
 })
 
 router.post('/send', (req, res, next) => {
+  let parameters = {}
+  parameters[req.body.param_id] = req.body.msg
   const options = {
     uri: 'https://danbee.ai/chatflow/engine.do',
     method: 'POST',
@@ -44,15 +46,12 @@ router.post('/send', (req, res, next) => {
       'session_id': req.body.session_id,
       'chatflow_id': req.body.chatflow_id,
       'ins_id': req.body.ins_id,
-      'parameters': {
-        'foods': req.body.msg,
-        'symptom': req.body.msg,
-      },
+      'param_id': req.body.param_id,
+      'parameters': parameters,
       'chatbot_id': 'fb5e336c-7ffc-48f3-8064-f453d7d1e26e',
       'input_sentence': req.body.msg
     }
   }
-  console.log(options)
   request.post(options, (err, response, body) => {
     if(err) {
       res.send({status: false, err})
@@ -61,6 +60,7 @@ router.post('/send', (req, res, next) => {
         ins_id: response.body.responseSet.result.ins_id,
         session_id: response.body.responseSet.result.session_id,
         chatflow_id: response.body.responseSet.result.chatflow_id,
+        param_id: response.body.responseSet.result.param_id,
         response: response.body.responseSet.result.result,
         data: response
       })

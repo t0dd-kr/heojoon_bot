@@ -15,7 +15,8 @@ router.post('/connect', (req, res, next) => {
     },
     json: {
       // 'chatbot_id': 'fb5e336c-7ffc-48f3-8064-f453d7d1e26e',
-      'chatbot_id': '67041b44-fbd6-4942-8239-3d0bdfd7ac70',
+      // 'chatbot_id': '67041b44-fbd6-4942-8239-3d0bdfd7ac70',
+      'chatbot_id': 'd68caddf-00fd-4273-afeb-3f43794093a9',
     }
   }
 
@@ -50,7 +51,8 @@ router.post('/send', (req, res, next) => {
       'param_id': req.body.param_id,
       'parameters': parameters,
       // 'chatbot_id': 'fb5e336c-7ffc-48f3-8064-f453d7d1e26e',
-      'chatbot_id': '67041b44-fbd6-4942-8239-3d0bdfd7ac70',
+      // 'chatbot_id': '67041b44-fbd6-4942-8239-3d0bdfd7ac70',
+      'chatbot_id': 'd68caddf-00fd-4273-afeb-3f43794093a9',
       'input_sentence': req.body.msg
     }
   }

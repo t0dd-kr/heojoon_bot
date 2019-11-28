@@ -71,7 +71,8 @@ export default {
     return {
       rewelcome: [
       '또 오셨구려, @name 대감. 이번엔 어떤 일로 오셨는가?',
-      '@name 대감, 다시 오셨구려. 저번의 @symptom 은(는) 괜찮아졌는가?',
+      '또 오셨구려, @name 대감. 저번 @symptom 때문에 왔었는데, 이번엔 어떤 일로 오셨는가?',
+      '@name 대감, 다시 오셨구려. 저번의 @symptom은(는) 괜찮아졌는가?',
       '@name 대감 반갑네. 저번의 @symptom 진료의 외상값은 가져왔는가? 이번엔 무슨 일로 왔는가?'],
       placeholder: '현재 증상을 말해주세요. (예: 콜록콜록)',
       userChat: '',
@@ -84,13 +85,18 @@ export default {
     }
   },
   beforeCreate: function () {
+    if(!window.localStorage.visit) {
+      window.localStorage.visit = 1
+    } else {
+      window.localStorage.visit = parseInt(window.localStorage.visit) + 1
+    }
     this.$http.post('/api/connect')
     .then(res => {
       this.chatflowId = res.data.chatflow_id
       this.sessionId = res.data.session_id
       this.insId = res.data.ins_id
       if(!window.localStorage.visit || window.localStorage.visit < 2) {
-        let welcomeMsgs = res.data.welcome.slice(1)
+        let welcomeMsgs = res.data.welcome
         for(let i=0;i<welcomeMsgs.length;i++) {
           this.chats.push({
             isBot: true,
@@ -102,7 +108,7 @@ export default {
       } else {
         let message = ''
         if(localStorage.symptom) {
-          message = this.rewelcome[parseInt(Math.random() * (this.rewelcome.length - 2)) + 1].replace('@name', window.localStorage.nickname).replace('@symptom', window.localStorage.symptom)
+          message = this.rewelcome[Math.round(Math.random() * 2) + 1].replace('@name', window.localStorage.nickname).replace('@symptom', window.localStorage.symptom)
           localStorage.removeItem('symptom')
         } else {
           message = this.rewelcome[0].replace('@name', window.localStorage.nickname)

@@ -264,7 +264,7 @@ $img: 80px;
   margin-bottom: 30px;
 }
 .chat {
-  height: calc(100% - 150px - 90px);
+  height: calc(100% - 150px - 95px);
   width: 580px;
   display: inline-block;
   background-color: rgba(255,255,255,0.5);
@@ -283,7 +283,7 @@ $img: 80px;
   }
 }
 .container-input {
-  height: 60px;
+  height: 80px;
   margin-top: 15px;
 }
 .text-input {
@@ -296,12 +296,13 @@ $img: 80px;
     border-radius: 10px;
     height: 100%;
     border: none;
-    padding: 5px 70px 5px 15px;
-    font-size: 24px;
+    padding: 5px 70px 5px 18px;
+    font-size: 26px;
     box-sizing: border-box;
     border: 1px solid #aaa;
     transition: border .25s;
     outline: none;
+    z-index: 100;
     &:focus {
       border: 1px solid #262525;
     }
@@ -309,10 +310,10 @@ $img: 80px;
   & > svg {
     cursor: pointer;
     position: absolute;
-    top: 15px;
-    right: 15px;
-    width: 30px;
-    height: 30px;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
     & path {
       fill: #84703d;
     }

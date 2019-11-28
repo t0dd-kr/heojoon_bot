@@ -17,6 +17,10 @@
               <div class="chat-content">
                 <div class="chat-content-image">
                   <img :src="chat.image" alt="" v-if="chat.image">
+                  <a href="https://place.map.kakao.com/1931001485" v-if="chat.isMap">
+                    <img src="../assets/map.png" alt="">
+                    강남경희이경섭한의원 (02-552-5377)
+                  </a>
                 </div>
                 {{chat.content}}
               </div>
@@ -161,7 +165,8 @@ export default {
           this.chats.push({
             isBot: true,
             image: response[i].imgRoute,
-            content: response[i].message.replace('@name', window.localStorage.nickname).replace('(핑퐁[pingpong.us]에서 생성된 자동답변입니다)', ''),
+            isMap: response[i].message.indexOf('@map') != -1,
+            content: response[i].message.replace('@name', window.localStorage.nickname).replace('(핑퐁[pingpong.us]에서 생성된 자동답변입니다)', '').replace('@map', ''),
             date: new Date()
           })
           this.shake()
@@ -220,7 +225,8 @@ export default {
           this.chats.push({
             isBot: true,
             image: response[i].imgRoute,
-            content: response[i].message.replace('@name', window.localStorage.nickname).replace('(핑퐁[pingpong.us]에서 생성된 자동답변입니다)', ''),
+            isMap: response[i].message.indexOf('@map') != -1,
+            content: response[i].message.replace('@name', window.localStorage.nickname).replace('(핑퐁[pingpong.us]에서 생성된 자동답변입니다)', '').replace('@map', ''),
             date: new Date()
           })
           this.shake()
@@ -297,19 +303,19 @@ $img: 80px;
     &.shake {
       @keyframes shake {
         10%, 90% {
-          transform: translate3d(-1px, 0, 0);
+          transform: translate3d(-2px, 0, 0);
         }
 
         20%, 80% {
-          transform: translate3d(2px, 0, 0);
+          transform: translate3d(4px, 0, 0);
         }
 
         30%, 50%, 70% {
-          transform: translate3d(-4px, 0, 0);
+          transform: translate3d(-8px, 0, 0);
         }
 
         40%, 60% {
-          transform: translate3d(4px, 0, 0);
+          transform: translate3d(8px, 0, 0);
         }
       }
       animation: shake 0.40s cubic-bezier(.36,.07,.19,.97) both;
@@ -407,9 +413,14 @@ $img: 80px;
   padding: 5px 0;
 }
 .chat-content {
-  &-image > img {
-    width: 200px;
+  &-image img {
+    margin-top: 5px;
+    border-radius: 5px;
+    width: 400px;
     margin-bottom: 5px;
+  }
+  a {
+    color: #fff;
   }
   border-radius: 10px;
   background-color: #fff;

@@ -10,7 +10,7 @@
           허준Bot
         </div>
       </div>
-      <div class="chat">
+      <div class="chat" @click.stop="focusInput">
         <div class="chat-flex">
           <div class="chat-row" v-for="chat in chats" :style="'text-align: ' + (chat.isBot ? 'left' : 'right')">
             <div class="chat-bot-el" v-if="chat.isBot">
@@ -36,7 +36,7 @@
           <div class="chat-row" v-if="optionList.length > 0">
             <div class="chat-user-el">
               <div class="button-input">
-                <div class="button-el" v-for="option in optionList" @click="clickOption(option)">
+                <div class="button-el" v-for="option in optionList" @click.stop="clickOption(option)">
                   {{option.label}}
                 </div>
               </div>
@@ -121,6 +121,9 @@ export default {
     })
   },
   methods: {
+    focusInput: function () {
+      $('input').focus()
+    },
     clickOption: function (option) {
       this.optionList = []
       this.chats.push({

@@ -22,7 +22,13 @@ router.post('/connect', (req, res, next) => {
     if(err) {
       res.send({status: false, err})
     } else {
-      res.send({ins_id: response.body.responseSet.result.ins_id, session_id: response.body.responseSet.result.session_id, chatflow_id: response.body.responseSet.result.chatflow_id, welcome: response.body.responseSet.result.result, data: response})
+      res.send({
+        ins_id: response.body.responseSet.result.ins_id,
+        session_id: response.body.responseSet.result.session_id,
+        chatflow_id: response.body.responseSet.result.chatflow_id,
+        welcome: response.body.responseSet.result.result,
+        data: response
+      })
     }
   })
 })
@@ -38,6 +44,10 @@ router.post('/send', (req, res, next) => {
       'session_id': req.body.session_id,
       'chatflow_id': req.body.chatflow_id,
       'ins_id': req.body.ins_id,
+      'parameters': {
+        'foods': req.body.msg,
+        'symptom': req.body.msg,
+      },
       'chatbot_id': 'fb5e336c-7ffc-48f3-8064-f453d7d1e26e',
       'input_sentence': req.body.msg
     }
@@ -47,7 +57,13 @@ router.post('/send', (req, res, next) => {
     if(err) {
       res.send({status: false, err})
     } else {
-      res.send({ins_id: response.body.responseSet.result.ins_id, session_id: response.body.responseSet.result.session_id, chatflow_id: response.body.responseSet.result.chatflow_id, response: response.body.responseSet.result.result, data: response})
+      res.send({
+        ins_id: response.body.responseSet.result.ins_id,
+        session_id: response.body.responseSet.result.session_id,
+        chatflow_id: response.body.responseSet.result.chatflow_id,
+        response: response.body.responseSet.result.result,
+        data: response
+      })
     }
   })
 })

@@ -52,7 +52,7 @@ router.post('/send', (req, res, next) => {
       'input_sentence': req.body.msg
     }
   }
-
+  console.log(options)
   request.post(options, (err, response, body) => {
     if(err) {
       res.send({status: false, err})
